@@ -3,7 +3,7 @@ import AuthPanel from "../components/AuthPanel";
 
 function Login() {
   return (
-    <main className="flex flex-col mt-12 mx-4  lg:flex">
+    <main className="mx-auto grid min-h-screen max-w-5xl items-center gap-10 px-4 py-12 lg:grid-cols-2">
       <section className="flex flex-col gap-6">
         <div className="flex gap-2 items-center text-green-900">
           <FolderLock size={40} />
