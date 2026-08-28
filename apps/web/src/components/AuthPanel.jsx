@@ -14,7 +14,7 @@ function AuthPanel() {
 
   return (
     <div className="panel p-6 mt-6">
-      <Tabs defaultValue="Login">
+      <Tabs defaultValue="login">
         <TabsList className="w-full">
           <TabsTrigger className="flex-1" value="login">
             Login
@@ -47,16 +47,16 @@ function AuthPanel() {
           </div>
         </div>
 
-        <TabsContent value="login" className="m-0">
+        <TabsContent value="login" className="my-4 mx-0">
           <Button
-            className="w-full"
+            className="w-full px-0"
             disabled={busy}
             onClick={() => void login()}
           >
             {busy ? "Please wait…" : "Log in"}
           </Button>
         </TabsContent>
-        <TabsContent value="register" className="m-0">
+        <TabsContent value="register" className="my-4 mx-0">
           <Button
             className="w-full"
             disabled={busy}
