@@ -3,14 +3,23 @@ import { Label } from "./ui/label";
 import { Input } from "./ui/Input";
 import { useState } from "react";
 import { Button } from "./ui/Button";
+import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router";
+import { toast } from "sonner";
 
 function AuthPanel() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
+  const { ready, currentUser, signIn } = useAuth();
+  const navigate = useNavigate();
 
   const login = () => {};
-  const register = () => {};
+  const register = async () => {
+    setBusy(true);
+    const result = await signIn(email, password);
+    console.log(result);
+  };
 
   return (
     <div className="panel p-6 mt-6">
