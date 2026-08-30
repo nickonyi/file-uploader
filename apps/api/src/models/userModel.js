@@ -20,3 +20,16 @@ export const getUserByEmailFromDb = async (email) => {
 
   return user[0] ?? null;
 };
+
+export const createUserInDB = async ({ email, password }) => {
+  const user = await prisma.$queryRaw`
+  INSERT INTO user  (email,password_hash)
+  VALUES (
+    ${email},
+    ${password}
+  )
+  RETURNING *
+  `;
+
+  return users[0] ?? null;
+};
