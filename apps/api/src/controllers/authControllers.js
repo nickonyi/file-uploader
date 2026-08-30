@@ -23,6 +23,20 @@ export const postSignUp = async (req, res, next) => {
 
     const { email, password } = matchedData(req);
     const user = await registerUser({ email, password });
+
+    req.session.regenerate((err) => {
+      if (err) return next(err);
+
+      req.login(user, (err) => {
+        if (err) return next(err);
+
+        return res.status(201).json({
+          success: true,
+          message: "Account created successfully",
+          user,
+        });
+      });
+    });
   } catch (err) {
     return next(err);
   }

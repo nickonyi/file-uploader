@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import passport from "./config/passportConfig.js";
+import authRoutes from "./routes/authRoutes.js";
 import { sessionMiddleware } from "./middlewares/sessionMiddleware.js";
 import { globalErrorHandler } from "./middlewares/errorMiddleware.js";
 
@@ -16,6 +17,7 @@ app.use(
 app.use(sessionMiddleware);
 app.use(passport.session());
 
+app.use("/api/auth", authRoutes);
 app.get("/api/health", (req, res) => {
   res.json({
     success: true,
