@@ -1,4 +1,5 @@
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "./ui/tabs";
+import { PasswordCheckList, passwordRules } from "./PasswordCheckList";
 import { Label } from "./ui/label";
 import { Input } from "./ui/Input";
 import { useState } from "react";
@@ -8,11 +9,39 @@ import { useNavigate } from "react-router";
 import { toast } from "sonner";
 
 function AuthPanel() {
+  const [activeTab, setActiveTab] = useState("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
+  const [errors, setErrors] = useState({});
+  const [formError, setFormError] = useState("");
   const { ready, currentUser, signIn } = useAuth();
   const navigate = useNavigate();
+
+  const EMAIL_RE = /\S+@\S+\.\S+/;
+
+  const validate = (mode) => {
+    const newErrors = {};
+
+    if (!email.trim()) {
+      newErrors.email = "Email is required!";
+    } else if (!EMAIL_RE.test(email.trim())) {
+      newErrors.email = "Enter a valid email";
+    }
+
+    if (!password) {
+      newErrors.password = "Password is required";
+    } else if (mode === "registered") {
+      const pwErrors = getPasswords(password);
+      if (pwErrors.length > 0) {
+        newErrors.password = `Passwords must include:${pwErrors.join(", ")}`;
+      }
+    }
+
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0;
+  };
 
   const login = () => {};
   const register = async () => {

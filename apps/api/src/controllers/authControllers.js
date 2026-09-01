@@ -10,7 +10,7 @@ export const postSignUp = async (req, res, next) => {
       const mappedErrors = {};
 
       errors.array().forEach((error) => {
-        if (!mappedErrors(error.path)) {
+        if (!mappedErrors[error.path]) {
           mappedErrors[error.path] = error.msg;
         }
       });

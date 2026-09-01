@@ -23,7 +23,7 @@ export const getUserByEmailFromDb = async (email) => {
 
 export const createUserInDB = async ({ email, password }) => {
   const user = await prisma.$queryRaw`
-  INSERT INTO user  (email,password_hash)
+  INSERT INTO users(email,password_hash)
   VALUES (
     ${email},
     ${password}
@@ -31,5 +31,5 @@ export const createUserInDB = async ({ email, password }) => {
   RETURNING *
   `;
 
-  return users[0] ?? null;
+  return user[0] ?? null;
 };
