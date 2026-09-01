@@ -32,27 +32,37 @@ function AuthPanel() {
     if (!password) {
       newErrors.password = "Password is required";
     } else if (mode === "registered") {
-      const pwErrors = getPasswords(password);
-      if (pwErrors.length > 0) {
-        newErrors.password = `Passwords must include:${pwErrors.join(", ")}`;
+      const failed = passwordRules.filter((r) => !r.test(password));
+      if (failed.length > 0) {
+        newErrors.password = `Password must include:${failed.map((r) => r.toLowerCase().join(", "))}`;
       }
     }
 
     setErrors(newErrors);
-
     return Object.keys(newErrors).length === 0;
   };
 
   const login = () => {};
   const register = async () => {
+    setFormError("");
+    if (!validate("register")) return;
     setBusy(true);
     const result = await signIn(email, password);
     console.log(result);
   };
 
+  console.log(errors);
+
   return (
     <div className="panel p-6 mt-6">
-      <Tabs defaultValue="login">
+      <Tabs
+        value={activeTab}
+        onValueChange={(val) => {
+          setActiveTab(val);
+          setErrors({});
+          setFormError("");
+        }}
+      >
         <TabsList className="w-full">
           <TabsTrigger className="flex-1" value="login">
             Login
@@ -70,8 +80,16 @@ function AuthPanel() {
               type="email"
               autoComplete="email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              aria-invalid={!!errors.email}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                if (errors.email)
+                  setErrors((p) => ({ ...p, email: undefined }));
+              }}
             />
+            {errors.email && (
+              <p className="text-sm text-red-500">{errors.email}</p>
+            )}
           </div>
           <div className="space-y-2">
             <Label htmlFor="password">Password</Label>
@@ -80,9 +98,23 @@ function AuthPanel() {
               type="password"
               autoComplete="current-password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              aria-invalid={!!errors.password}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                if (errors.password)
+                  setErrors((p) => ({ ...p, password: undefined }));
+              }}
             />
+            {activeTab === "register" && password.length > 0 && (
+              <PasswordCheckList password={password} />
+            )}
+            {errors.password && (
+              <p className="text-sm text-red-500">{errors.password}</p>
+            )}
           </div>
+          {formError && (
+            <p className="text-sm text-red-500 text-center">{formError}</p>
+          )}
         </div>
 
         <TabsContent value="login" className="my-4 mx-0">

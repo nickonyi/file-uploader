@@ -9,7 +9,7 @@ export const passwordRules = [
 export function PasswordCheckList({ password }) {
   return (
     <ul className="text-sm space-y-1 mt-1">
-      {rules.map((rule) => {
+      {passwordRules.map((rule) => {
         const passed = rule.test(password);
         return (
           <li
