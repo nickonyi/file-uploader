@@ -9,8 +9,8 @@ export const signUpValidator = [
     .withMessage("Email must be valid")
     .normalizeEmail(),
   body("password")
-    .isLength({ min: 6 })
-    .withMessage("Password should be atleast 6 characters"),
+    .isLength({ min: 8 })
+    .withMessage("Password should be atleast 8 characters"),
 ];
 
 export const loginValidator = [

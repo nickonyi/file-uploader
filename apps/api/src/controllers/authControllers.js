@@ -22,6 +22,7 @@ export const postSignUp = async (req, res, next) => {
     }
 
     const { email, password } = matchedData(req);
+
     const user = await registerUser({ email, password });
 
     req.session.regenerate((err) => {

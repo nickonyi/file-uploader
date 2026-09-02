@@ -47,11 +47,14 @@ function AuthPanel() {
     setFormError("");
     if (!validate("register")) return;
     setBusy(true);
-    const result = await signIn(email, password);
-    console.log(result);
+    try {
+      await signIn(email, password);
+    } catch (err) {
+      setErrors(err?.message || "Registration failed. Please try again");
+    } finally {
+      setBusy(false);
+    }
   };
-
-  console.log(errors);
 
   return (
     <div className="panel p-6 mt-6">
