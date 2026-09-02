@@ -14,7 +14,7 @@ export function AuthProvider({ children }) {
   const [ready, setReady] = useState(false);
   const [user, setUser] = useState(null);
 
-  const SESSION_KEY = "fu:user";
+  const SESSION_KEY = "fileU:user";
 
   useEffect(() => {
     const storedUser = localStorage.getItem(SESSION_KEY);
@@ -32,7 +32,7 @@ export function AuthProvider({ children }) {
 
   const signUp = useCallback(async (email, password) => {
     try {
-      const data = await authApi.signIn(email, password);
+      const data = await authApi.signUp(email, password);
       setUser(data.user);
       localStorage.setItem(SESSION_KEY, JSON.stringify(data.user));
 
@@ -47,7 +47,25 @@ export function AuthProvider({ children }) {
       };
     }
   }, []);
-  const value = useMemo(() => ({ ready, user, signUp }), [ready, user, signUp]);
+
+  const signIn = useCallback(async (email, password) => {
+    const data = await authApi.signIn(email, password);
+
+    setUser(data.user);
+
+    return data.user;
+  }, []);
+
+  const signOut = useCallback(async () => {
+    await authApi.signOut();
+    localStorage.removeItem(SESSION_KEY);
+    setUser(null);
+  }, []);
+
+  const value = useMemo(
+    () => ({ ready, user, signIn, signUp, signOut }),
+    [ready, user, signIn, signUp, signOut],
+  );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

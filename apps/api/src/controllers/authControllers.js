@@ -42,3 +42,51 @@ export const postSignUp = async (req, res, next) => {
     return next(err);
   }
 };
+
+export const postSignIn = (req, res, next) => {
+  passport.authenticate("local", (err, user, info) => {
+    if (err) return next(err);
+
+    if (!user) {
+      console.log("yeah no user idiot");
+      console.log(info);
+
+      return res.status(400).json({
+        success: false,
+        message: info?.message || "Invalid username or password",
+      });
+    }
+
+    req.session.regenerate((err) => {
+      if (err) return next(err);
+
+      req.login(user, (err) => {
+        if (err) return next(err);
+
+        return res.status(200).json({
+          success: true,
+          message: "Successful login",
+          user: {
+            id: user.id,
+            email: user.email,
+          },
+        });
+      });
+    });
+  })(req, res, next);
+};
+
+export const postSignOut = (req, res, next) => {
+  req.logout((err) => {
+    if (err) return next(err);
+
+    req.session.destroy(() => {
+      res.clearCookie("connect.sid");
+
+      return res.status(200).json({
+        success: true,
+        message: "successfully login",
+      });
+    });
+  });
+};

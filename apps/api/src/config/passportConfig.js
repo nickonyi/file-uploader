@@ -12,7 +12,7 @@ passport.use(
 
         if (!user) {
           return done(null, false, {
-            message: "Email or password incorrect",
+            message: "Invalid username or password",
           });
         }
 

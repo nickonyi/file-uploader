@@ -14,7 +14,7 @@ function AuthPanel() {
   const [busy, setBusy] = useState(false);
   const [errors, setErrors] = useState({});
   const [formError, setFormError] = useState("");
-  const { signUp } = useAuth();
+  const { signUp, signIn } = useAuth();
   const navigate = useNavigate();
 
   const EMAIL_RE = /\S+@\S+\.\S+/;
@@ -41,7 +41,19 @@ function AuthPanel() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const login = () => {};
+  const login = async () => {
+    setFormError("");
+    if (!validate("login")) return;
+    setBusy(true);
+    try {
+      console.log(await signIn(email, password));
+      navigate("/dashboard");
+    } catch (err) {
+      setFormError(err?.message || "Invalid username or password");
+    } finally {
+      setBusy(false);
+    }
+  };
   const register = async () => {
     setFormError("");
     if (!validate("register")) return;
@@ -55,6 +67,8 @@ function AuthPanel() {
       setBusy(false);
     }
   };
+
+  console.log(errors);
 
   return (
     <div className="panel p-6 mt-6">
