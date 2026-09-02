@@ -6,7 +6,6 @@ import { useState } from "react";
 import { Button } from "./ui/Button";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router";
-import { toast } from "sonner";
 
 function AuthPanel() {
   const [activeTab, setActiveTab] = useState("login");
@@ -15,7 +14,7 @@ function AuthPanel() {
   const [busy, setBusy] = useState(false);
   const [errors, setErrors] = useState({});
   const [formError, setFormError] = useState("");
-  const { ready, currentUser, signIn } = useAuth();
+  const { signUp } = useAuth();
   const navigate = useNavigate();
 
   const EMAIL_RE = /\S+@\S+\.\S+/;
@@ -48,7 +47,8 @@ function AuthPanel() {
     if (!validate("register")) return;
     setBusy(true);
     try {
-      await signIn(email, password);
+      await signUp(email, password);
+      navigate("/dashboard");
     } catch (err) {
       setErrors(err?.message || "Registration failed. Please try again");
     } finally {

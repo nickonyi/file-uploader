@@ -12,7 +12,7 @@ const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
   const [ready, setReady] = useState(false);
-  const [currentUser, setCurrentUser] = useState(null);
+  const [user, setUser] = useState(null);
 
   const SESSION_KEY = "fu:user";
 
@@ -21,19 +21,19 @@ export function AuthProvider({ children }) {
 
     if (storedUser) {
       try {
-        setCurrentUser(JSON.parse(storedUser));
+        setUser(JSON.parse(storedUser));
       } catch (err) {
         localStorage.removeItem(SESSION_KEY);
-        setCurrentUser(null);
+        setUser(null);
       }
     }
     setReady(true);
   }, []);
 
-  const signIn = useCallback(async (email, password) => {
+  const signUp = useCallback(async (email, password) => {
     try {
       const data = await authApi.signIn(email, password);
-      setCurrentUser(data.user);
+      setUser(data.user);
       localStorage.setItem(SESSION_KEY, JSON.stringify(data.user));
 
       return {
@@ -47,10 +47,7 @@ export function AuthProvider({ children }) {
       };
     }
   }, []);
-  const value = useMemo(
-    () => ({ ready, currentUser, signIn }),
-    [ready, currentUser, signIn],
-  );
+  const value = useMemo(() => ({ ready, user, signUp }), [ready, user, signUp]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
