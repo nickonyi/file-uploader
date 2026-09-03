@@ -28,7 +28,9 @@ export const registerUser = async ({ email, password }) => {
     throw new AppError("Data is required for registeration!");
   }
   try {
-    const hashedPassword = hashPassword(password);
+    const hashedPassword = await hashPassword(password);
+
+    console.log(hashedPassword);
 
     return await createUserInDB({ email, hashedPassword });
   } catch (err) {

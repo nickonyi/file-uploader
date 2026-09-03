@@ -1,10 +1,9 @@
-import React from "react";
+import AppHeader from "../components/AppHeader";
 
 function Dashboard() {
   return (
     <div>
-      <h1>Dashboard</h1>
-      <p>Welcome</p>
+      <AppHeader />
     </div>
   );
 }

@@ -48,9 +48,6 @@ export const postSignIn = (req, res, next) => {
     if (err) return next(err);
 
     if (!user) {
-      console.log("yeah no user idiot");
-      console.log(info);
-
       return res.status(400).json({
         success: false,
         message: info?.message || "Invalid username or password",
