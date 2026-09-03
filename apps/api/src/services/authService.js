@@ -30,8 +30,6 @@ export const registerUser = async ({ email, password }) => {
   try {
     const hashedPassword = await hashPassword(password);
 
-    console.log(hashedPassword);
-
     return await createUserInDB({ email, hashedPassword });
   } catch (err) {
     if (err === "23505") {
