@@ -1,6 +1,7 @@
 import { UploadCloud } from "lucide-react";
 import { Button } from "./ui/Button";
 import { useState } from "react";
+import { toast } from "sonner";
 
 export function UploadDropzone({ folderId, userId, onUploaded }) {
   const [busy, setBusy] = useState(false);
