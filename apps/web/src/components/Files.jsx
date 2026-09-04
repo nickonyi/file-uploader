@@ -5,6 +5,7 @@ import { UploadDropzone } from "./UploadDropzone";
 import { Input } from "./ui/Input";
 import { Button } from "./ui/Button";
 import { FolderPlus, Folder } from "lucide-react";
+import FileTable from "./FileTable";
 
 function Files() {
   const { user } = useAuth();
@@ -51,6 +52,7 @@ function Files() {
       </section>
       <section className="space-y-3">
         <h2 className="text-lg font-semibold">Loose files</h2>
+        <FileTable />
       </section>
     </div>
   );
