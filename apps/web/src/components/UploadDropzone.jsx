@@ -18,9 +18,7 @@ export function UploadDropzone({ folderId, userId, onUploaded }) {
         </p>
       </div>
       <input type="file" multiple className="hidden" id="" />
-      <Button disabled={busy}>
-        {busy ? "Uploading..." : "Choosing files"}
-      </Button>
+      <Button disabled={busy}>{busy ? "Uploading..." : "Choose files"}</Button>
     </div>
   );
 }
