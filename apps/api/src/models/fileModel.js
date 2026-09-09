@@ -10,3 +10,42 @@ export const findFolderByIdAndUser = async ({ folderId, userId }) => {
 
   return folder[0] ?? null;
 };
+
+export const createFileInDB = async ({
+  userId,
+  folderId,
+  name,
+  storageKey,
+  mimeType,
+  size,
+}) => {
+  const file = await prisma.$queryRaw`
+    INSERT into files(
+      user_id,
+      folder_id,
+      name,
+      storage_key,
+      mime_type,size
+    )
+     VALUES (
+      ${userId},
+      ${folderId},
+      ${name},
+      ${storageKey},
+      ${mimeType},
+      ${size}
+    )
+    RETURNING
+      id,
+      user_id,
+      folder_id,
+      name,
+      storage_key,
+      mime_type,
+      size,
+      created_at,
+      updated_at
+`;
+
+  return file[0] ?? null;
+};
