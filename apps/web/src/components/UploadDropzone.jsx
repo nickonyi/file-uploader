@@ -1,11 +1,14 @@
 import { UploadCloud } from "lucide-react";
 import { Button } from "./ui/Button";
 import { useState } from "react";
+import { MAX_FILE_SIZE } from "../libs/file-rules";
 import { toast } from "sonner";
 
 export function UploadDropzone({ folderId, userId, onUploaded }) {
+  const [file, setFile] = useState();
   const [busy, setBusy] = useState(false);
-  const MAX_FILE_SIZE = 5;
+
+  const uploadFile = () => {};
 
   return (
     <div className="panel flex flex-col items-center gap-3 border-dashed p-8 text-center">
@@ -17,7 +20,12 @@ export function UploadDropzone({ folderId, userId, onUploaded }) {
           PDF, text, CSV, JSON, zip, Office docs
         </p>
       </div>
-      <input type="file" multiple className="hidden" id="" />
+      <input
+        type="file"
+        multiple
+        className="hidden"
+        onChange={(e) => setFile(e.target.files[0])}
+      />
       <Button disabled={busy}>{busy ? "Uploading..." : "Choose files"}</Button>
     </div>
   );
