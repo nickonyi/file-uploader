@@ -1,5 +1,5 @@
 import crypto from "crypto";
-import supabase from "../lib/supabase";
+import supabase from "../lib/supabase.js";
 import { createFileInDB, findFolderByIdAndUser } from "../models/fileModel.js";
 import { AppError } from "../utils/appError.js";
 

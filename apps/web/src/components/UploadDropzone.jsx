@@ -3,12 +3,17 @@ import { Button } from "./ui/Button";
 import { useState } from "react";
 import { MAX_FILE_SIZE } from "../libs/file-rules";
 import { toast } from "sonner";
+import { useUploadFile } from "../hooks/useUploadFile";
+import { useRef } from "react";
 
 export function UploadDropzone({ folderId, userId, onUploaded }) {
   const [file, setFile] = useState();
-  const [busy, setBusy] = useState(false);
+  const inputRef = useRef(null);
+  const { uploadData, busy, error } = useUploadFile();
 
-  const uploadFile = () => {};
+  const uploadFiles = () => {
+    uploadData({ folderId, file });
+  };
 
   return (
     <div className="panel flex flex-col items-center gap-3 border-dashed p-8 text-center">
@@ -21,12 +26,15 @@ export function UploadDropzone({ folderId, userId, onUploaded }) {
         </p>
       </div>
       <input
+        ref={inputRef}
         type="file"
         multiple
         className="hidden"
         onChange={(e) => setFile(e.target.files[0])}
       />
-      <Button disabled={busy}>{busy ? "Uploading..." : "Choose files"}</Button>
+      <Button onClick={() => inputRef.current.click()} disabled={busy}>
+        {busy ? "Uploading..." : "Choose files"}
+      </Button>
     </div>
   );
 }

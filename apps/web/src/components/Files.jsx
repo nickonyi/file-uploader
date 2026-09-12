@@ -6,10 +6,12 @@ import { Input } from "./ui/Input";
 import { Button } from "./ui/Button";
 import { FolderPlus, Folder } from "lucide-react";
 import FileTable from "./FileTable";
+import { useFiles } from "../hooks/useFiles";
 
 function Files() {
   const { user } = useAuth();
   const [newFolder, setNewFolder] = useState();
+  const { files, busy, error, reloadFiles } = useFiles();
 
   const folders = [];
   return (
@@ -21,7 +23,11 @@ function Files() {
           Files uploaded here are not inside any folder.
         </p>
       </div>
-      {user ? <UploadDropzone /> : "null"}
+      {user ? (
+        <UploadDropzone folderId={null} onUploaded={reloadFiles()} />
+      ) : (
+        "null"
+      )}
 
       <section className="space-y-3">
         <h2 className="text-lg font-semibold">Folders</h2>
@@ -52,7 +58,7 @@ function Files() {
       </section>
       <section className="space-y-3">
         <h2 className="text-lg font-semibold">Loose files</h2>
-        <FileTable />
+        <FileTable files={files} />
       </section>
     </div>
   );
