@@ -1,22 +1,41 @@
 import { UploadCloud } from "lucide-react";
 import { Button } from "./ui/Button";
-import { useState } from "react";
-import { MAX_FILE_SIZE } from "../libs/file-rules";
+import { MAX_FILE_SIZE, validateFile } from "../libs/file-rules";
 import { toast } from "sonner";
 import { useUploadFile } from "../hooks/useUploadFile";
 import { useRef } from "react";
 
-export function UploadDropzone({ folderId, userId, onUploaded }) {
-  const [file, setFile] = useState();
+export function UploadDropzone({ folderId, onUploaded }) {
   const inputRef = useRef(null);
-  const { uploadData, busy, error } = useUploadFile();
+  const { uploadData, busy } = useUploadFile();
 
-  const uploadFiles = () => {
-    uploadData({ folderId, file });
+  const uploadFiles = async (fileList) => {
+    if (!fileList || fileList.length === 0) return;
+
+    for (const file of Array.from(fileList)) {
+      const problem = validateFile(file);
+      if (problem) {
+        toast.error(`${file.name},${problem}`);
+        continue;
+      }
+      try {
+        await uploadData({ folderId, file });
+      } catch (error) {
+        toast.error(`${file.name}: ${error.message}`);
+      }
+    }
+    onUploaded?.();
   };
 
   return (
-    <div className="panel flex flex-col items-center gap-3 border-dashed p-8 text-center">
+    <div
+      onDragOver={(e) => e.preventDefault()}
+      onDrop={(e) => {
+        e.preventDefault();
+        uploadFiles(e.dataTransfer.files);
+      }}
+      className="panel flex flex-col items-center gap-3 border-dashed p-8 text-center"
+    >
       <UploadCloud className="h-8 w-8 text-primary" />
       <div>
         <p className="font-medium">Drop files here to upload</p>
@@ -30,7 +49,7 @@ export function UploadDropzone({ folderId, userId, onUploaded }) {
         type="file"
         multiple
         className="hidden"
-        onChange={(e) => setFile(e.target.files[0])}
+        onChange={(e) => uploadFiles(e.target.files)}
       />
       <Button onClick={() => inputRef.current.click()} disabled={busy}>
         {busy ? "Uploading..." : "Choose files"}

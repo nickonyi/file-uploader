@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import * as uploadFileApi from "../../api/fileApi";
 
-export function useFiles({ folderId }) {
+export function useFiles(folderId = null) {
   const [files, setFiles] = useState();
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState(null);
@@ -18,11 +18,11 @@ export function useFiles({ folderId }) {
     } finally {
       setBusy(false);
     }
+  }, [folderId]);
 
-    useEffect(() => {
-      loadFiles();
-    }, []);
-  }, []);
+  useEffect(() => {
+    loadFiles();
+  }, [loadFiles]);
 
   return {
     files,

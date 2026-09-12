@@ -5,15 +5,16 @@ export const useUploadFile = () => {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState(null);
 
-  const uploadData = async ({ fileId, folder }) => {
+  const uploadData = async ({ folderId, file }) => {
     setBusy(true);
     setError(null);
 
     try {
-      const data = await uploadFileApi.uploadFile({ fileId, folder });
+      const data = await uploadFileApi.uploadFile({ folderId, file });
       return data;
     } catch (err) {
       setError(err);
+      throw err;
     } finally {
       setBusy(false);
     }
@@ -22,6 +23,7 @@ export const useUploadFile = () => {
   return {
     uploadData,
     busy,
+    setBusy,
     error,
   };
 };

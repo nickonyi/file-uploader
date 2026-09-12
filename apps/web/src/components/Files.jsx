@@ -11,7 +11,7 @@ import { useFiles } from "../hooks/useFiles";
 function Files() {
   const { user } = useAuth();
   const [newFolder, setNewFolder] = useState();
-  const { files, busy, error, reloadFiles } = useFiles();
+  const { files, busy, error, reloadFiles } = useFiles(null);
 
   const folders = [];
   return (
@@ -24,7 +24,7 @@ function Files() {
         </p>
       </div>
       {user ? (
-        <UploadDropzone folderId={null} onUploaded={reloadFiles()} />
+        <UploadDropzone folderId={null} onUploaded={reloadFiles} />
       ) : (
         "null"
       )}
