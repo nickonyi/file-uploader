@@ -13,13 +13,16 @@ export function UploadDropzone({ folderId, onUploaded }) {
     if (!fileList || fileList.length === 0) return;
 
     for (const file of Array.from(fileList)) {
-      const problem = validateFile(file);
-      if (problem) {
-        toast.error(`${file.name},${problem}`);
-        continue;
-      }
+      console.log(file);
+
       try {
-        await uploadData({ folderId, file });
+        const problem = validateFile(file);
+
+        if (problem) {
+          toast.error(`${file.name},${problem}`);
+          continue;
+        }
+        console.log(await uploadData({ folderId, file }));
       } catch (error) {
         toast.error(`${file.name}: ${error.message}`);
       }

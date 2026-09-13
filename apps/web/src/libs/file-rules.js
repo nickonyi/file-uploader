@@ -23,6 +23,7 @@ export const ALLOWED_MIME_TYPES = [
 export const validateFile = (file) => {
   if (file.size === 0) return "File is empty";
   if (file.size > MAX_FILE_SIZE) return "File is larger than 25MB";
+
   if (!ALLOWED_MIME_TYPES.includes(file.type)) {
     return `File type "${file.type || "unknown"}" is not allowed.`;
   }

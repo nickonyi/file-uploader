@@ -3,6 +3,7 @@ import cors from "cors";
 import passport from "./config/passportConfig.js";
 import authRoutes from "./routes/authRoutes.js";
 import fileRoutes from "./routes/fileRoutes.js";
+import { ensureAuth } from "./middlewares/authMiddleware.js";
 import { sessionMiddleware } from "./middlewares/sessionMiddleware.js";
 import { globalErrorHandler } from "./middlewares/errorMiddleware.js";
 
@@ -19,7 +20,7 @@ app.use(sessionMiddleware);
 app.use(passport.session());
 
 app.use("/api/auth", authRoutes);
-app.use("/api/file", fileRoutes);
+app.use("/api/files", ensureAuth, fileRoutes);
 app.get("/api/health", (req, res) => {
   res.json({
     success: true,

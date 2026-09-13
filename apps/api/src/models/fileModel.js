@@ -49,3 +49,42 @@ export const createFileInDB = async ({
 
   return file[0] ?? null;
 };
+
+export const findFilesByUser = async ({ userId, folderId = null }) => {
+  const files = folderId
+    ? await prisma.$queryRaw`
+    SELECT 
+       id,
+       user_id,
+       folder_id,
+       name,
+       storage_key,
+       mime_type,
+       size,
+       created_at,
+       updated_at,
+    FROM files
+    WHERE user_id=${userId}
+    AND folder_id={folderId}
+    ORDER BY created_at DESC
+  
+  `
+    : await prisma.$queryRaw`
+  SELECT 
+       id,
+       user_id,
+       folder_id,
+       name,
+       storage_key,
+       mime_type,
+       size,
+       created_at,
+       updated_at,
+    FROM files
+    WHERE user_id=${userId}
+    AND folder_id IS NULL
+    ORDER BY created_at DESC
+  `;
+
+  return files;
+};

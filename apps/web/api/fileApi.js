@@ -9,10 +9,13 @@ export const uploadFile = async ({ file, folderId }) => {
     formData.append("folderId", folderId);
   }
 
-  const res = fetch(`${API_URL}/api/files`, {
-    method: POST,
+  const res = await fetch(`${API_URL}/api/files/uploads`, {
+    credentials: "include",
+    method: "POST",
     body: JSON.stringify(formData),
   });
+
+  console.log(res);
 
   if (!res.ok) {
     throw Error("failed to upload file");
@@ -28,7 +31,9 @@ export const listFiles = async ({ folderId = null }) => {
     params.set("folderId", folderId);
   }
 
-  const res = await fetch(`${API_URL}/api/files?${params}`);
+  const res = await fetch(`${API_URL}/api/files?${params}`, {
+    credentials: "include",
+  });
 
   if (!res.ok) {
     throw Error("Failed to load files");

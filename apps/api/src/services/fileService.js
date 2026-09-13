@@ -3,7 +3,7 @@ import supabase from "../lib/supabase.js";
 import { createFileInDB, findFolderByIdAndUser } from "../models/fileModel.js";
 import { AppError } from "../utils/appError.js";
 
-export const uploadFile = async ({ userId, folderId = null, file }) => {
+export const uploadFileService = async ({ userId, folderId = null, file }) => {
   if (folderId) {
     const folder = await findFolderByIdAndUser({ folderId, userId });
 
@@ -36,4 +36,8 @@ export const uploadFile = async ({ userId, folderId = null, file }) => {
   });
 
   return savedFile;
+};
+
+export const listFilesService = async ({ userId, folderId = null }) => {
+  return await findFolderByIdAndUser({ userId, folderId });
 };
