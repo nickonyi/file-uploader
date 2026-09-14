@@ -6,12 +6,15 @@ import {
 export const uploadFile = async (req, res, next) => {
   try {
     const userId = req.user.id;
-    const folderId = req.body.folderId;
+    const { folderId } = req.body;
+
     const file = req.file;
 
-    console.log(file);
-
-    const savedFile = await uploadFileService({ userId, folderId, file });
+    const savedFile = await uploadFileService({
+      userId,
+      folderId: folderId || null,
+      file,
+    });
     console.log(savedFile);
 
     return res.status(200).json({

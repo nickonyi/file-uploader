@@ -5,6 +5,8 @@ export const uploadFile = async ({ file, folderId }) => {
 
   formData.append("file", file);
 
+  console.log(folderId);
+
   if (folderId) {
     formData.append("folderId", folderId);
   }
@@ -12,7 +14,7 @@ export const uploadFile = async ({ file, folderId }) => {
   const res = await fetch(`${API_URL}/api/files/uploads`, {
     credentials: "include",
     method: "POST",
-    body: JSON.stringify(formData),
+    body: formData,
   });
 
   console.log(res);

@@ -16,14 +16,17 @@ export const uploadFileService = async ({ userId, folderId = null, file }) => {
   const storageKey = `${userId}/${fieldId}`;
 
   const { error: uploadError } = await supabase.storage
-    .from("files")
+    .from("My_files")
     .upload(storageKey, file.buffer, {
-      contentType: file.mimeType,
+      contentType: file.mimetype,
       upsert: false,
     });
 
+  console.log(uploadError);
+  console.log(file);
+
   if (uploadError) {
-    throw new AppError("Failed to upload file.");
+    throw new AppError(uploadError || "Failed to upload file.");
   }
 
   const savedFile = await createFileInDB({

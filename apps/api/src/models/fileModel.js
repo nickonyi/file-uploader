@@ -25,7 +25,8 @@ export const createFileInDB = async ({
       folder_id,
       name,
       storage_key,
-      mime_type,size
+      mime_type,
+      size
     )
      VALUES (
       ${userId},
@@ -47,7 +48,14 @@ export const createFileInDB = async ({
       updated_at
 `;
 
-  return file[0] ?? null;
+  if (!file[0]) {
+    return null;
+  }
+
+  return {
+    ...file[0],
+    size: Number(file[0].size),
+  };
 };
 
 export const findFilesByUser = async ({ userId, folderId = null }) => {
