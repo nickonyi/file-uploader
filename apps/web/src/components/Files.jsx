@@ -11,7 +11,11 @@ import { useFiles } from "../hooks/useFiles";
 function Files() {
   const { user } = useAuth();
   const [newFolder, setNewFolder] = useState();
+  console.log("darrius");
+
   const { files, busy, error, reloadFiles } = useFiles(null);
+
+  console.log(files);
 
   const folders = [];
   return (

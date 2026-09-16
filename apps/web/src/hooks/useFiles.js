@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import * as uploadFileApi from "../../api/fileApi";
+import * as fileApi from "../../api/fileApi";
 
 export function useFiles(folderId = null) {
   const [files, setFiles] = useState();
@@ -11,7 +11,11 @@ export function useFiles(folderId = null) {
     setError(null);
 
     try {
-      const data = await uploadFileApi.listFiles({ folderId });
+      console.log("chief chef");
+
+      const data = await fileApi.listFiles({ folderId });
+      console.log(data);
+
       setFiles(data);
     } catch (err) {
       setError(err);
@@ -21,6 +25,7 @@ export function useFiles(folderId = null) {
   }, [folderId]);
 
   useEffect(() => {
+    console.log("notorious");
     loadFiles();
   }, [loadFiles]);
 
