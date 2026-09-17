@@ -65,6 +65,30 @@ function FileTable({ files, onChanged, onDownload }) {
           </li>
         ))}
       </ul>
+
+      <Dialog
+        open={details !== null}
+        onOpenChange={(open) => !open && setDetails(null)}
+      >
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle className="truncate">{details?.name}</DialogTitle>
+            <DialogDescription>File details</DialogDescription>
+          </DialogHeader>
+          {details ? (
+            <dl className="grid grid-cols-3 gap-y-3 text-sm">
+              <dt className="text-muted-foreground">Name</dt>
+              <dd className="col-span-2 break-all">{details.name}</dd>
+              <dt className="text-muted-foreground">Size</dt>
+              <dd className="col-span-2">{formatBytes(details.size)}</dd>
+              <dt className="text-muted-foreground">Type</dt>
+              <dd className="col-span-2">{details.mime_type}</dd>
+              <dt className="text-muted-foreground">Uploaded</dt>
+              <dd className="col-span-2">{formatDate(details.created_at)}</dd>
+            </dl>
+          ) : null}
+        </DialogContent>
+      </Dialog>
     </>
   );
 }
