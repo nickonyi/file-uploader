@@ -70,10 +70,10 @@ export const findFilesByUser = async ({ userId, folderId = null }) => {
        mime_type,
        size,
        created_at,
-       updated_at,
+       updated_at
     FROM files
     WHERE user_id=${userId}
-    AND folder_id={folderId}
+    AND folder_id=${folderId}
     ORDER BY created_at DESC
   
   `
@@ -87,12 +87,15 @@ export const findFilesByUser = async ({ userId, folderId = null }) => {
        mime_type,
        size,
        created_at,
-       updated_at,
+       updated_at
     FROM files
     WHERE user_id=${userId}
     AND folder_id IS NULL
     ORDER BY created_at DESC
   `;
 
-  return files;
+  return files.map((file) => ({
+    ...file,
+    size: Number(file.size),
+  }));
 };

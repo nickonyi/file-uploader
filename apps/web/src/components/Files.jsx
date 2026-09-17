@@ -11,13 +11,11 @@ import { useFiles } from "../hooks/useFiles";
 function Files() {
   const { user } = useAuth();
   const [newFolder, setNewFolder] = useState();
-  console.log("darrius");
 
   const { files, busy, error, reloadFiles } = useFiles(null);
 
-  console.log(files);
-
   const folders = [];
+
   return (
     <div className="mx-auto max-w-5xl space-y-8 px-4 py-8">
       <div>
@@ -62,7 +60,7 @@ function Files() {
       </section>
       <section className="space-y-3">
         <h2 className="text-lg font-semibold">Loose files</h2>
-        <FileTable files={files} />
+        <FileTable files={files} onChanged={reloadFiles} />
       </section>
     </div>
   );

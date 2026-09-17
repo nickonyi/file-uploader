@@ -15,7 +15,6 @@ export const uploadFile = async (req, res, next) => {
       folderId: folderId || null,
       file,
     });
-    console.log(savedFile);
 
     return res.status(200).json({
       message: "File uploded successfully",

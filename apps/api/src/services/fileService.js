@@ -1,6 +1,10 @@
 import crypto from "crypto";
 import supabase from "../lib/supabase.js";
-import { createFileInDB, findFolderByIdAndUser } from "../models/fileModel.js";
+import {
+  createFileInDB,
+  findFolderByIdAndUser,
+  findFilesByUser,
+} from "../models/fileModel.js";
 import { AppError } from "../utils/appError.js";
 
 export const uploadFileService = async ({ userId, folderId = null, file }) => {
@@ -42,5 +46,5 @@ export const uploadFileService = async ({ userId, folderId = null, file }) => {
 };
 
 export const listFilesService = async ({ userId, folderId = null }) => {
-  return await findFolderByIdAndUser({ userId, folderId });
+  return findFilesByUser({ userId, folderId });
 };

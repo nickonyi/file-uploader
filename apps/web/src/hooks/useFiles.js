@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import * as fileApi from "../../api/fileApi";
 
 export function useFiles(folderId = null) {
-  const [files, setFiles] = useState();
+  const [files, setFiles] = useState([]);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState(null);
 
@@ -11,12 +11,9 @@ export function useFiles(folderId = null) {
     setError(null);
 
     try {
-      console.log("chief chef");
-
       const data = await fileApi.listFiles({ folderId });
-      console.log(data);
 
-      setFiles(data);
+      setFiles(data.files);
     } catch (err) {
       setError(err);
     } finally {
@@ -25,7 +22,6 @@ export function useFiles(folderId = null) {
   }, [folderId]);
 
   useEffect(() => {
-    console.log("notorious");
     loadFiles();
   }, [loadFiles]);
 
