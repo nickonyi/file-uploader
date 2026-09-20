@@ -26,9 +26,6 @@ export const uploadFileService = async ({ userId, folderId = null, file }) => {
       upsert: false,
     });
 
-  console.log(uploadError);
-  console.log(file);
-
   if (uploadError) {
     throw new AppError(uploadError || "Failed to upload file.");
   }
