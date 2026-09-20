@@ -12,7 +12,7 @@ import { formatBytes, formatDate } from "../libs/file-rules";
 import { useState } from "react";
 import { useDownloadFile } from "../hooks/useDownloadfile";
 
-function FileTable({ files, onChanged, onDownload }) {
+function FileTable({ files, onChanged }) {
   const [details, setDetails] = useState(null);
   const { downloadFile } = useDownloadFile();
 
