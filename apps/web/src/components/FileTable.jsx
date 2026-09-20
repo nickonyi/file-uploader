@@ -1,4 +1,4 @@
-import { Download, FileText, Info, Trash2 } from "lucide-react";
+import { Download, FileText, HandHeart, Info, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "./ui/Button";
 import {
@@ -10,11 +10,20 @@ import {
 } from "../components/ui/dialog";
 import { formatBytes, formatDate } from "../libs/file-rules";
 import { useState } from "react";
+import { useDownloadFile } from "../hooks/useDownloadfile";
 
 function FileTable({ files, onChanged, onDownload }) {
   const [details, setDetails] = useState(null);
+  const { downloadFile } = useDownloadFile();
 
-  const download = () => {};
+  const download = async (file) => {
+    try {
+      const result = await downloadFile(file.id);
+      window.open(result.url, "_blank");
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "download failed");
+    }
+  };
 
   if (files.length === 0) {
     return (

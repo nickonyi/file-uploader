@@ -1,29 +1,16 @@
 const API_URL = import.meta.env.VITE_API_URL;
+import { api } from "./client";
 
 export const uploadFile = async ({ file, folderId }) => {
   const formData = new FormData();
 
   formData.append("file", file);
 
-  console.log(folderId);
-
   if (folderId) {
     formData.append("folderId", folderId);
   }
 
-  const res = await fetch(`${API_URL}/api/files/uploads`, {
-    credentials: "include",
-    method: "POST",
-    body: formData,
-  });
-
-  console.log(res);
-
-  if (!res.ok) {
-    throw Error("failed to upload file");
-  }
-
-  return res.json();
+  return api("/files/uploads", { method: "POST", body: formData });
 };
 
 export const listFiles = async ({ folderId = null }) => {
@@ -42,4 +29,10 @@ export const listFiles = async ({ folderId = null }) => {
   }
 
   return res.json();
+};
+
+export const getDownloadUrl = async (id) => {
+  return api(`/files/${id}/downloads`, {
+    method: "GET",
+  });
 };
