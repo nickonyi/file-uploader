@@ -36,3 +36,7 @@ export const getDownloadUrl = async (id) => {
     method: "GET",
   });
 };
+
+export const deleteFileRequest = async (fileId) => {
+  return api(`/files/${fileId}`, { method: "DELETE" });
+};

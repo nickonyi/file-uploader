@@ -110,3 +110,10 @@ export const findFileByIdFromDB = async (fileId) => {
 
   return result[0] ?? null;
 };
+
+export const deleteFileFromDB = async (fileId) => {
+  await prisma.$queryRaw`
+     DELETE FROM files
+     WHERE id=${fileId}
+  `;
+};

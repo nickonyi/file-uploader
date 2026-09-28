@@ -5,6 +5,7 @@ import {
   findFolderByIdAndUser,
   findFilesByUser,
   findFileByIdFromDB,
+  deleteFileFromDB,
 } from "../models/fileModel.js";
 import { AppError } from "../utils/appError.js";
 
@@ -63,4 +64,26 @@ export const downloadFileService = async (fileId) => {
   }
 
   return data.signedUrl;
+};
+
+export const deleteFileService = async (fileId, userId) => {
+  const file = await findFileByIdFromDB(fileId);
+
+  if (!file) {
+    new AppError("File not found");
+  }
+
+  if (file.user_id !== userId) {
+    new AppError("You are not allowed to delete file.");
+  }
+
+  const { error } = await supabase.storage
+    .from("My_files")
+    .remove([file.storage_key]);
+
+  if (error) {
+    throw error;
+  }
+
+  await deleteFileFromDB(fileId);
 };

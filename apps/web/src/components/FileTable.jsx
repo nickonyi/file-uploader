@@ -11,10 +11,12 @@ import {
 import { formatBytes, formatDate } from "../libs/file-rules";
 import { useState } from "react";
 import { useDownloadFile } from "../hooks/useDownloadfile";
+import { useDeleteFile } from "../hooks/useDeleteFile";
 
 function FileTable({ files, onChanged }) {
   const [details, setDetails] = useState(null);
   const { downloadFile } = useDownloadFile();
+  const { deleteFile } = useDeleteFile();
 
   const download = async (file) => {
     try {
@@ -37,6 +39,16 @@ function FileTable({ files, onChanged }) {
       window.URL.revokeObjectURL(url);
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "download failed");
+    }
+  };
+
+  const remove = async (file) => {
+    try {
+      await deleteFile(file.id);
+      await onChanged();
+      toast.success("File was deleted successfully");
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Delete Failed!");
     }
   };
 

@@ -1,4 +1,5 @@
 import {
+  deleteFileService,
   downloadFileService,
   listFilesService,
   uploadFileService,
@@ -50,6 +51,22 @@ export const downloadFile = async (req, res, next) => {
 
     return res.status(200).json({
       downloadFileUrl,
+    });
+  } catch (err) {
+    return next(err);
+  }
+};
+
+export const deleteFile = async (req, res, next) => {
+  try {
+    const { fileId } = req.params;
+    const userId = req.user.id;
+
+    deleteFileService(fileId, userId);
+
+    return res.status(200).json({
+      success: true,
+      message: "File deleted successfully",
     });
   } catch (err) {
     return next(err);
