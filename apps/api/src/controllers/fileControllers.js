@@ -1,4 +1,5 @@
 import {
+  downloadFileService,
   listFilesService,
   uploadFileService,
 } from "../services/fileService.js";
@@ -35,6 +36,20 @@ export const listFiles = async (req, res, next) => {
     return res.status(200).json({
       success: true,
       files,
+    });
+  } catch (err) {
+    return next(err);
+  }
+};
+
+export const downloadFile = async (req, res, next) => {
+  try {
+    const { fileId } = req.params;
+
+    const downloadFileUrl = await downloadFileService(fileId);
+
+    return res.status(200).json({
+      downloadFileUrl,
     });
   } catch (err) {
     return next(err);

@@ -99,3 +99,14 @@ export const findFilesByUser = async ({ userId, folderId = null }) => {
     size: Number(file.size),
   }));
 };
+
+export const findFileByIdFromDB = async (fileId) => {
+  const result = await prisma.$queryRaw`
+        SELECT * 
+        FROM files
+        WHERE id=${fileId}
+        
+  `;
+
+  return result[0] ?? null;
+};

@@ -19,7 +19,22 @@ function FileTable({ files, onChanged }) {
   const download = async (file) => {
     try {
       const result = await downloadFile(file.id);
-      window.open(result.url, "_blank");
+      const fileResponse = await fetch(result.downloadFileUrl);
+
+      if (!fileResponse.ok) {
+        throw Error("Failed to download file!");
+      }
+
+      const blob = await fileResponse.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = file.name;
+
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "download failed");
     }
