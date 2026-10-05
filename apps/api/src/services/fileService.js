@@ -8,6 +8,7 @@ import {
   deleteFileFromDB,
 } from "../models/fileModel.js";
 import { AppError } from "../utils/appError.js";
+import { prisma } from "../lib/prisma.js";
 
 export const uploadFileService = async ({ userId, folderId = null, file }) => {
   if (folderId) {
@@ -45,7 +46,10 @@ export const uploadFileService = async ({ userId, folderId = null, file }) => {
 };
 
 export const listFilesService = async ({ userId, folderId = null }) => {
-  return findFilesByUser({ userId, folderId });
+  const result = await findFilesByUser({ userId, folderId });
+  console.log(result);
+
+  return result;
 };
 
 export const downloadFileService = async (fileId) => {
@@ -70,11 +74,11 @@ export const deleteFileService = async (fileId, userId) => {
   const file = await findFileByIdFromDB(fileId);
 
   if (!file) {
-    new AppError("File not found");
+    throw new AppError("File not found");
   }
 
   if (file.user_id !== userId) {
-    new AppError("You are not allowed to delete file.");
+    throw new AppError("You are not allowed to delete file.");
   }
 
   const { error } = await supabase.storage
@@ -85,5 +89,7 @@ export const deleteFileService = async (fileId, userId) => {
     throw error;
   }
 
-  await deleteFileFromDB(fileId);
+  const result = await deleteFileFromDB(fileId);
+
+  return result;
 };

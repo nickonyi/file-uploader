@@ -20,15 +20,9 @@ export const listFiles = async ({ folderId = null }) => {
     params.set("folderId", folderId);
   }
 
-  const res = await fetch(`${API_URL}/api/files?${params}`, {
-    credentials: "include",
+  return api(`/files?${params.toString()}`, {
+    method: "GET",
   });
-
-  if (!res.ok) {
-    throw Error("Failed to load files");
-  }
-
-  return res.json();
 };
 
 export const getDownloadUrl = async (id) => {

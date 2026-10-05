@@ -13,8 +13,6 @@ export function UploadDropzone({ folderId, onUploaded }) {
     if (!fileList || fileList.length === 0) return;
 
     for (const file of Array.from(fileList)) {
-      console.log(file);
-
       try {
         const problem = validateFile(file);
 

@@ -33,6 +33,7 @@ export const listFiles = async (req, res, next) => {
     const folderId = req.query.folderId;
 
     const files = await listFilesService({ userId, folderId });
+    console.log(files);
 
     return res.status(200).json({
       success: true,
@@ -62,7 +63,7 @@ export const deleteFile = async (req, res, next) => {
     const { fileId } = req.params;
     const userId = req.user.id;
 
-    deleteFileService(fileId, userId);
+    await deleteFileService(fileId, userId);
 
     return res.status(200).json({
       success: true,

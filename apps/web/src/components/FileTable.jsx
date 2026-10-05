@@ -45,7 +45,9 @@ function FileTable({ files, onChanged }) {
   const remove = async (file) => {
     try {
       await deleteFile(file.id);
-      await onChanged();
+
+      onChanged?.();
+
       toast.success("File was deleted successfully");
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Delete Failed!");

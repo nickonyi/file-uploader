@@ -61,38 +61,37 @@ export const createFileInDB = async ({
 export const findFilesByUser = async ({ userId, folderId = null }) => {
   const files = folderId
     ? await prisma.$queryRaw`
-    SELECT 
-       id,
-       user_id,
-       folder_id,
-       name,
-       storage_key,
-       mime_type,
-       size,
-       created_at,
-       updated_at
-    FROM files
-    WHERE user_id=${userId}
-    AND folder_id=${folderId}
-    ORDER BY created_at DESC
-  
-  `
+        SELECT 
+          id,
+          user_id,
+          folder_id,
+          name,
+          storage_key,
+          mime_type,
+          size,
+          created_at,
+          updated_at
+        FROM files
+        WHERE user_id=${userId}
+        AND folder_id=${folderId}
+        ORDER BY created_at DESC
+      `
     : await prisma.$queryRaw`
-  SELECT 
-       id,
-       user_id,
-       folder_id,
-       name,
-       storage_key,
-       mime_type,
-       size,
-       created_at,
-       updated_at
-    FROM files
-    WHERE user_id=${userId}
-    AND folder_id IS NULL
-    ORDER BY created_at DESC
-  `;
+        SELECT 
+          id,
+          user_id,
+          folder_id,
+          name,
+          storage_key,
+          mime_type,
+          size,
+          created_at,
+          updated_at
+        FROM files
+        WHERE user_id=${userId}
+        AND folder_id IS NULL
+        ORDER BY created_at DESC
+      `;
 
   return files.map((file) => ({
     ...file,
@@ -112,8 +111,10 @@ export const findFileByIdFromDB = async (fileId) => {
 };
 
 export const deleteFileFromDB = async (fileId) => {
-  await prisma.$queryRaw`
-     DELETE FROM files
-     WHERE id=${fileId}
+  const result = await prisma.$executeRaw`
+    DELETE FROM files
+    WHERE id = ${fileId}
   `;
+
+  return result;
 };
