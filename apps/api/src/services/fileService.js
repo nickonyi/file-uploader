@@ -47,7 +47,6 @@ export const uploadFileService = async ({ userId, folderId = null, file }) => {
 
 export const listFilesService = async ({ userId, folderId = null }) => {
   const result = await findFilesByUser({ userId, folderId });
-  console.log(result);
 
   return result;
 };

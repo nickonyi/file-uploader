@@ -33,7 +33,6 @@ export const listFiles = async (req, res, next) => {
     const folderId = req.query.folderId;
 
     const files = await listFilesService({ userId, folderId });
-    console.log(files);
 
     return res.status(200).json({
       success: true,
