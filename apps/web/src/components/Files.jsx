@@ -16,6 +16,8 @@ function Files() {
 
   const folders = [];
 
+  const createFolder = () => {};
+
   return (
     <div className="mx-auto max-w-5xl space-y-8 px-4 py-8">
       <div>
@@ -38,7 +40,7 @@ function Files() {
             value={newFolder}
             onChange={(e) => setNewFolder(e.target.value)}
           />
-          <Button>
+          <Button onClick={() => createFolder()}>
             <FolderPlus className="mr-2 w-4 h-4" /> Create
           </Button>
         </div>

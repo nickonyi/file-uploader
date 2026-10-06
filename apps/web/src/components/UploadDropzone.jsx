@@ -20,7 +20,7 @@ export function UploadDropzone({ folderId, onUploaded }) {
           toast.error(`${file.name},${problem}`);
           continue;
         }
-        console.log(await uploadData({ folderId, file }));
+        await uploadData({ folderId, file });
       } catch (error) {
         toast.error(`${file.name}: ${error.message}`);
       }
