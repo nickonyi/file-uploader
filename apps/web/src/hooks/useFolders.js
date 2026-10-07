@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import * as folderApi from "../api/folderApi";
 
 export function useFolders() {
@@ -20,5 +20,21 @@ export function useFolders() {
     }
   }, []);
 
-  const createFolder = (name) => {};
+  useEffect(() => {
+    loadFolders();
+  }, [loadFolders]);
+
+  const createFolder = useCallback(() => {
+    async (name) => {
+      const data = await folderApi.createFolder(name);
+      setFolders((prev) => [...prev, data.folder]);
+    };
+  }, []);
+
+  return {
+    folders,
+    busy,
+    error,
+    createFolder,
+  };
 }
