@@ -1,15 +1,31 @@
-import { createFolderService } from "../services/folderService.js";
+import {
+  createFolderService,
+  getFoldersService,
+} from "../services/folderService.js";
 
 export const createFolderController = async (req, res, next) => {
   try {
     const userId = req.user.id;
-    const name = req.query.body;
+    const { name } = req.body;
 
     const folder = await createFolderService({ userId, name });
 
     return res
       .status(201)
       .json({ success: true, folder, message: "folder created" });
+  } catch (err) {
+    return next(err);
+  }
+};
+
+export const getFolderController = async (req, res, next) => {
+  try {
+    const folders = await getFoldersService();
+
+    return res.status(200).json({
+      success: true,
+      folders,
+    });
   } catch (err) {
     return next(err);
   }

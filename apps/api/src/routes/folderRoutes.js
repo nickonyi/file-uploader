@@ -1,9 +1,12 @@
 import { Router } from "express";
-import { createFolderController } from "../controllers/folderControllers.js";
+import {
+  createFolderController,
+  getFolderController,
+} from "../controllers/folderControllers.js";
 
 const router = Router();
 
-//router.get("/", listFiles);
-router.post("/folders", createFolderController);
+router.get("/", getFolderController);
+router.post("/", createFolderController);
 
 export default router;

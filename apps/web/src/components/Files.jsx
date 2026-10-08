@@ -7,16 +7,24 @@ import { Button } from "./ui/Button";
 import { FolderPlus, Folder } from "lucide-react";
 import FileTable from "./FileTable";
 import { useFiles } from "../hooks/useFiles";
+import { useFolders } from "../hooks/useFolders";
+import { toast } from "sonner";
 
 function Files() {
   const { user } = useAuth();
-  const [newFolder, setNewFolder] = useState();
+  const [newFolder, setNewFolder] = useState("");
 
   const { files, busy, error, reloadFiles } = useFiles(null);
+  const { folders, createFolder, folderErr } = useFolders();
+  console.log(folders);
 
-  const folders = [];
-
-  const createFolder = () => {};
+  const handleCreateFolder = async () => {
+    try {
+      await createFolder(newFolder);
+    } catch (err) {
+      toast.error(err instanceof Error);
+    }
+  };
 
   return (
     <div className="mx-auto max-w-5xl space-y-8 px-4 py-8">
@@ -40,20 +48,25 @@ function Files() {
             value={newFolder}
             onChange={(e) => setNewFolder(e.target.value)}
           />
-          <Button onClick={() => createFolder()}>
+          <Button onClick={() => handleCreateFolder()}>
             <FolderPlus className="mr-2 w-4 h-4" /> Create
           </Button>
         </div>
 
-        {folders.data && folders.data.length > 0 ? (
-          folders.data.map((folder) => (
-            <li key={folder.id}>
-              <Link to="/folders/$id">
-                <Folder className="w-5 h-5 text-primary" />
-                <span className="font-medium">{folder.name}</span>
-              </Link>
-            </li>
-          ))
+        {folders && folders.length > 0 ? (
+          <ul className="panel divide-y divide-border">
+            {folders.map((folder) => (
+              <li key={folder.id}>
+                <Link
+                  to={`/folders/${folder.id}`}
+                  className="flex items-center gap-3 px-4 py-3 transition-colors hover:bg-accent"
+                >
+                  <Folder className="w-5 h-5 text-primary" />
+                  <span className="font-medium">{folder.name}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
         ) : (
           <p className="panel p-6 text-center text-sm text-muted-foreground">
             No folders yet

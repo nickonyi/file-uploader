@@ -46,7 +46,7 @@ function AuthPanel() {
     if (!validate("login")) return;
     setBusy(true);
     try {
-      console.log(await signIn(email, password));
+      await signIn(email, password);
       navigate("/dashboard");
     } catch (err) {
       setFormError(err?.message || "Invalid username or password");
@@ -67,8 +67,6 @@ function AuthPanel() {
       setBusy(false);
     }
   };
-
-  console.log(errors);
 
   return (
     <div className="panel p-6 mt-6">

@@ -6,12 +6,12 @@ export const getFoldersFromDB = async () => {
      FROM folders
     `;
 
-  return result[0] ?? null;
+  return result;
 };
 
 export const createFolderInDB = async ({ userId, name }) => {
   const result = await prisma.$queryRaw`
-    INSERT INTO folder
+    INSERT INTO folders
     (user_id,name)
     VALUES(
      ${userId},
@@ -19,4 +19,6 @@ export const createFolderInDB = async ({ userId, name }) => {
     )
     RETURNING *
     `;
+
+  return result;
 };

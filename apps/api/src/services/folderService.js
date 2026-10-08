@@ -1,9 +1,9 @@
-import { createFileInDB } from "../models/fileModel.js";
+import { createFolderInDB, getFoldersFromDB } from "../models/folderModel.js";
 
-export const getFolders = async () => {
-  return lis;
+export const getFoldersService = async () => {
+  return await getFoldersFromDB();
 };
 
 export const createFolderService = async ({ userId, name }) => {
-  return createFileInDB({ userId, name });
+  return createFolderInDB({ userId, name });
 };
