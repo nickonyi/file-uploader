@@ -11,7 +11,7 @@ export function useFiles(folderId = null) {
     setError(null);
 
     try {
-      const data = await fileApi.listFiles({ folderId });
+      const data = await fileApi.listFiles(folderId);
 
       setFiles(data.files);
     } catch (err) {

@@ -13,7 +13,7 @@ export const uploadFile = async ({ file, folderId }) => {
   return api("/files/uploads", { method: "POST", body: formData });
 };
 
-export const listFiles = async ({ folderId = null }) => {
+export const listFiles = async (folderId = null) => {
   const params = new URLSearchParams();
 
   if (folderId) {

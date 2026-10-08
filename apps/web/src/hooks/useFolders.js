@@ -27,15 +27,15 @@ export function useFolders() {
   }, [loadFolders]);
 
   const createFolder = useCallback(async (name) => {
-    const data = await folderApi.createFolder(name);
+    await folderApi.createFolder(name);
 
-    setFolders((prev) => [...prev, data.folder]);
+    loadFolders();
   }, []);
 
   return {
     folders,
     busy,
-    error: folderErr,
+    error,
     createFolder,
   };
 }

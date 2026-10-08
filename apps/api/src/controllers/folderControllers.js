@@ -1,5 +1,6 @@
 import {
   createFolderService,
+  getFolderByIdService,
   getFoldersService,
 } from "../services/folderService.js";
 
@@ -18,13 +19,28 @@ export const createFolderController = async (req, res, next) => {
   }
 };
 
-export const getFolderController = async (req, res, next) => {
+export const getFoldersController = async (req, res, next) => {
   try {
     const folders = await getFoldersService();
 
     return res.status(200).json({
       success: true,
       folders,
+    });
+  } catch (err) {
+    return next(err);
+  }
+};
+
+export const getFolderController = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const userId = req.user.id;
+    const folder = await getFolderByIdService(id, userId);
+
+    return res.status(200).json({
+      success: true,
+      folder,
     });
   } catch (err) {
     return next(err);

@@ -10,3 +10,7 @@ export const createFolder = async (name) => {
     body: JSON.stringify({ name }),
   });
 };
+
+export const getFolder = async (id) => {
+  return api(`/folders/${id}`, { method: "GET" });
+};
