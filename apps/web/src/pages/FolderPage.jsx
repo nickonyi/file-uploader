@@ -10,6 +10,8 @@ import FileTable from "../components/FileTable";
 import { Button } from "../components/ui/Button";
 import ShareDialog from "../components/ShareDialog";
 import { Input } from "../components/ui/Input";
+import { toast } from "sonner";
+import { useFolders } from "../hooks/useFolders";
 
 function FolderPage() {
   const { id } = useParams();
@@ -17,12 +19,22 @@ function FolderPage() {
   const navigate = useNavigate();
   const { folder, renameFolder } = useFolder(id);
 
+  console.log(folder);
+
   const { files, reloadFiles } = useFiles(id);
 
   const [renaming, setRenaming] = useState(false);
   const [name, setName] = useState("");
 
-  const handleRenameFolder = async () => {};
+  const handleRenameFolder = async () => {
+    try {
+      await renameFolder(id, name);
+      setRenaming(false);
+      toast.success("Folder renamed");
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Rename failed");
+    }
+  };
 
   return (
     <main className="mx-auto max-w-5xl space-y-8 px-4 py-8">
@@ -38,7 +50,7 @@ function FolderPage() {
         {renaming ? (
           <div className="flex flex-1 gap-2">
             <Input value={name} onChange={(e) => setName(e.target.value)} />
-            <Button>Save</Button>
+            <Button onClick={handleRenameFolder}>Save</Button>
             <Button variant="ghost" onClick={() => setRenaming(false)}>
               Cancel
             </Button>

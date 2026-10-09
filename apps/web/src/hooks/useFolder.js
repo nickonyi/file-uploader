@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import * as folderApi from "../../api/folderApi";
 
 export function useFolder(id) {
@@ -26,5 +26,10 @@ export function useFolder(id) {
     };
   }, [id]);
 
-  return { folder, busy, error };
+  const renameFolder = useCallback(async (id, name) => {
+    const data = await folderApi.renameFolder(id, name);
+    setFolder((prev) => ({ ...prev, ...data.folder }));
+  }, []);
+
+  return { folder, busy, error, renameFolder };
 }

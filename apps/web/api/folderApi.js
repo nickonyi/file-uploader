@@ -15,8 +15,8 @@ export const getFolder = async (id) => {
   return api(`/folders/${id}`, { method: "GET" });
 };
 
-export const renameFolder = async (name) => {
-  return api("/folders", {
+export const renameFolder = async (id, name) => {
+  return api(`/folders/${id}`, {
     method: "PATCH",
     body: JSON.stringify({ name }),
   });

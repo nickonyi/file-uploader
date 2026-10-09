@@ -40,3 +40,14 @@ export const getFilesByFolderIdFromDB = (folderId, userId) => {
     WHERE folder_id = ${folderId} AND user_id = ${userId}
   `;
 };
+
+export const updateFolderInDB = async ({ id, userId, name }) => {
+  const result = await prisma.$queryRaw`
+    UPDATE folders
+    SET name=${name}, updated_at=now()
+    WHERE id=${id} AND user_id=${userId}
+    RETURNING *
+    `;
+
+  return result[0] ?? null;
+};

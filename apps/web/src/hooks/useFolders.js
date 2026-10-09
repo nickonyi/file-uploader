@@ -29,16 +29,11 @@ export function useFolders() {
     await folderApi.createFolder(name);
   }, []);
 
-  const renameFolder = useCallback(async (name) => {
-    await folderApi.renameFolder(name);
-  }, []);
-
   return {
     folders,
     busy,
     error,
     createFolder,
-    renameFolder,
     reloadFolders: loadFolders,
   };
 }
