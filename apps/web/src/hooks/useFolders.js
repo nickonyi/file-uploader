@@ -12,7 +12,6 @@ export function useFolders() {
 
     try {
       const data = await folderApi.listFolders();
-      console.log(data);
 
       setFolders(data.folders);
     } catch (err) {
@@ -28,8 +27,10 @@ export function useFolders() {
 
   const createFolder = useCallback(async (name) => {
     await folderApi.createFolder(name);
+  }, []);
 
-    loadFolders();
+  const renameFolder = useCallback(async (name) => {
+    await folderApi.renameFolder(name);
   }, []);
 
   return {
@@ -37,5 +38,7 @@ export function useFolders() {
     busy,
     error,
     createFolder,
+    renameFolder,
+    reloadFolders: loadFolders,
   };
 }

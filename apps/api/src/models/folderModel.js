@@ -1,9 +1,10 @@
 import { prisma } from "../lib/prisma.js";
 
-export const getFoldersFromDB = async () => {
+export const getFoldersFromDB = async (userId) => {
   const result = await prisma.$queryRaw`
      SELECT * 
      FROM folders
+     WHERE user_id=${userId}
     `;
 
   return result;

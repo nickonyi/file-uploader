@@ -15,12 +15,18 @@ function Files() {
   const [newFolder, setNewFolder] = useState("");
 
   const { files, busy, error, reloadFiles } = useFiles(null);
-  const { folders, createFolder, error: folderErr } = useFolders();
+  const {
+    folders,
+    createFolder,
+    reloadFolders,
+    error: folderErr,
+  } = useFolders();
 
   const handleCreateFolder = async () => {
     try {
       await createFolder(newFolder);
       setNewFolder("");
+      reloadFolders();
     } catch (err) {
       toast.error(
         err instanceof Error ? err.message : "Could not create folder",

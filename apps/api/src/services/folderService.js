@@ -5,12 +5,24 @@ import {
 } from "../models/folderModel.js";
 import { AppError } from "../utils/appError.js";
 
-export const getFoldersService = async () => {
-  return await getFoldersFromDB();
+export const getFoldersService = async (userId) => {
+  const folders = await getFoldersFromDB(userId);
+
+  return folders;
 };
 
 export const createFolderService = async ({ userId, name }) => {
-  return createFolderInDB({ userId, name });
+  if (typeof name !== "string" || name.trim() === "") {
+    throw new AppError("You have to provide the folder name!", 400);
+  }
+
+  const trimmed = name.trim();
+
+  if (trimmed.length > 255) {
+    throw new AppError("Folder name is too long (max 255 characters)", 400);
+  }
+
+  return createFolderInDB({ userId, name: trimmed });
 };
 
 export const getFolderByIdService = async (id, userId) => {

@@ -21,7 +21,9 @@ export const createFolderController = async (req, res, next) => {
 
 export const getFoldersController = async (req, res, next) => {
   try {
-    const folders = await getFoldersService();
+    const userId = req.user.id;
+
+    const folders = await getFoldersService(userId);
 
     return res.status(200).json({
       success: true,

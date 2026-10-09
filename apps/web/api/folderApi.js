@@ -14,3 +14,10 @@ export const createFolder = async (name) => {
 export const getFolder = async (id) => {
   return api(`/folders/${id}`, { method: "GET" });
 };
+
+export const renameFolder = async (name) => {
+  return api("/folders", {
+    method: "PATCH",
+    body: JSON.stringify({ name }),
+  });
+};
