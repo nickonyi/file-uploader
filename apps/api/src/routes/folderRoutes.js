@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
   createFolderController,
+  deleteFolderController,
   getFolderController,
   getFoldersController,
   updateFolderController,
@@ -13,5 +14,6 @@ router.get("/:id", getFolderController);
 router.post("/", createFolderController);
 
 router.patch("/:id", updateFolderController);
+router.delete("/:id", deleteFolderController);
 
 export default router;

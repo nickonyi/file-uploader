@@ -51,3 +51,14 @@ export const updateFolderInDB = async ({ id, userId, name }) => {
 
   return result[0] ?? null;
 };
+
+export const deleteFolderInDB = async ({ id, userId }) => {
+  const result = await prisma.$queryRaw`
+    DELETE FROM 
+    folders
+    WHERE id=${id} AND user_id=${userId}
+    RETURNING *
+    `;
+
+  return result[0] ?? null;
+};

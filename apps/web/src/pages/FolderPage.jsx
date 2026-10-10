@@ -17,7 +17,7 @@ function FolderPage() {
   const { id } = useParams();
   const { user } = useAuth();
   const navigate = useNavigate();
-  const { folder, renameFolder } = useFolder(id);
+  const { folder, renameFolder, deleteFolder } = useFolder(id);
 
   console.log(folder);
 
@@ -33,6 +33,16 @@ function FolderPage() {
       toast.success("Folder renamed");
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Rename failed");
+    }
+  };
+
+  const handleDeleteFoder = async () => {
+    try {
+      await deleteFolder(id);
+      navigate("/dashboard");
+      toast.success("successfully deleted folder");
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Deleted Failed!");
     }
   };
 
@@ -70,7 +80,7 @@ function FolderPage() {
               <Pencil className="mr-2 h-4 w-4" /> Rename
             </Button>
             <ShareDialog folderId={id} />
-            <Button variant="outline">
+            <Button variant="outline" onClick={handleDeleteFoder}>
               <Trash2 className="mr-2 h-4 w-4 text-destructive" />
               Delete
             </Button>

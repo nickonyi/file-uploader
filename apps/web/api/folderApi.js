@@ -21,3 +21,9 @@ export const renameFolder = async (id, name) => {
     body: JSON.stringify({ name }),
   });
 };
+
+export const deleteFolder = async (id) => {
+  return api(`/folders/${id}`, {
+    method: "DELETE",
+  });
+};

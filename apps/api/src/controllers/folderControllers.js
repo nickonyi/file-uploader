@@ -1,5 +1,6 @@
 import {
   createFolderService,
+  deleteFolderService,
   getFolderByIdService,
   getFoldersService,
   updateFolderService,
@@ -60,6 +61,19 @@ export const updateFolderController = async (req, res, next) => {
     return res.status(200).json({
       success: true,
       folder,
+    });
+  } catch (err) {
+    return next(err);
+  }
+};
+
+export const deleteFolderController = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const userId = req.user.id;
+    await deleteFolderService({ id, userId });
+    return res.status(200).json({
+      success: true,
     });
   } catch (err) {
     return next(err);

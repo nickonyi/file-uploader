@@ -1,5 +1,6 @@
 import {
   createFolderInDB,
+  deleteFolderInDB,
   getFolderByIdFromDB,
   getFoldersFromDB,
   updateFolderInDB,
@@ -54,4 +55,12 @@ export const updateFolderService = async ({ id, userId, name }) => {
   }
 
   return folder;
+};
+
+export const deleteFolderService = async ({ id, userId }) => {
+  const deleted = await deleteFolderInDB({ id, userId });
+
+  if (!deleted) {
+    throw new AppError("Folder not found", 404);
+  }
 };

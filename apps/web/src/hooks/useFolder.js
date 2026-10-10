@@ -31,5 +31,12 @@ export function useFolder(id) {
     setFolder((prev) => ({ ...prev, ...data.folder }));
   }, []);
 
-  return { folder, busy, error, renameFolder };
+  const deleteFolder = useCallback(
+    async (id) => {
+      await folderApi.deleteFolder(id);
+    },
+    [id],
+  );
+
+  return { folder, busy, error, deleteFolder, renameFolder };
 }
