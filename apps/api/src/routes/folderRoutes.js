@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
   createFolderController,
+  createFolderShareController,
   deleteFolderController,
   getFolderController,
   getFoldersController,
@@ -12,6 +13,7 @@ const router = Router();
 router.get("/", getFoldersController);
 router.get("/:id", getFolderController);
 router.post("/", createFolderController);
+router.post("/:id/share", createFolderShareController);
 
 router.patch("/:id", updateFolderController);
 router.delete("/:id", deleteFolderController);

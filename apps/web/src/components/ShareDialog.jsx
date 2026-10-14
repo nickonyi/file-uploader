@@ -17,10 +17,22 @@ import {
   SelectValue,
 } from "./ui/Select";
 import { SHARE_DURATIONS } from "../libs/file-rules";
+import { useShareFolder } from "../hooks/useShare";
+import { toast } from "sonner";
 
 function ShareDialog({ folderId }) {
   const [open, setOpen] = useState(false);
   const [hours, setHours] = useState("24");
+  const { createShare } = useShareFolder();
+
+  const handleCreateShare = async () => {
+    try {
+      await createShare(folderId, hours);
+      toast.success("Share link created");
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Deleted Failed!");
+    }
+  };
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -56,7 +68,7 @@ function ShareDialog({ folderId }) {
               </SelectContent>
             </Select>
           </div>
-          <Button>Create link</Button>
+          <Button onClick={handleCreateShare}>Create link</Button>
         </div>
       </DialogContent>
     </Dialog>

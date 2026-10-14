@@ -1,5 +1,6 @@
 import {
   createFolderService,
+  createFolderShareService,
   deleteFolderService,
   getFolderByIdService,
   getFoldersService,
@@ -75,6 +76,20 @@ export const deleteFolderController = async (req, res, next) => {
     return res.status(200).json({
       success: true,
     });
+  } catch (err) {
+    return next(err);
+  }
+};
+
+export const createFolderShareController = async (req, res, next) => {
+  try {
+    const result = await createFolderShareService({
+      id: req.params.id,
+      userId: req.user.id,
+      hours: Number(req.body.hours),
+    });
+
+    return res.status(201).json(result);
   } catch (err) {
     return next(err);
   }

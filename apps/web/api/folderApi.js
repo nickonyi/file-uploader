@@ -27,3 +27,10 @@ export const deleteFolder = async (id) => {
     method: "DELETE",
   });
 };
+
+export const shareFolder = async (id, hours) => {
+  return api(`/folders/${id}/share`, {
+    method: "POST",
+    body: JSON.stringify({ hours }),
+  });
+};

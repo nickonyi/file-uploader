@@ -1,11 +1,13 @@
 import {
   createFolderInDB,
+  createShareInDB,
   deleteFolderInDB,
   getFolderByIdFromDB,
   getFoldersFromDB,
   updateFolderInDB,
 } from "../models/folderModel.js";
 import { AppError } from "../utils/appError.js";
+import crypto from "crypto";
 
 export const getFoldersService = async (userId) => {
   const folders = await getFoldersFromDB(userId);
@@ -63,4 +65,26 @@ export const deleteFolderService = async ({ id, userId }) => {
   if (!deleted) {
     throw new AppError("Folder not found", 404);
   }
+};
+
+export const createFolderShareService = async ({ id, userId, hours }) => {
+  const MAX_HOURS = 24 * 30;
+  if (!Number.isInteger(hours) || hours < 1 || hours > MAX_HOURS) {
+    throw new AppError("Invalid share duration", 400);
+  }
+
+  const folder = await getFolderByIdFromDB(id, userId);
+  if (!folder) {
+    throw new AppError("Folder not found", 404);
+  }
+
+  const expiresAt = new Date(Date.now() + hours * 60 * 60 * 1000);
+  const token = crypto.randomBytes(32).toString("base64url");
+
+  const share = await createShareInDB({ folderId: id, token, expiresAt });
+
+  return {
+    url: `${process.env.CLIENT_URL}/shared/${share.token}`,
+    expires_at: share.expires_at,
+  };
 };

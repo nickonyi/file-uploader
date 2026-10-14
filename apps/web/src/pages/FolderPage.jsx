@@ -11,7 +11,6 @@ import { Button } from "../components/ui/Button";
 import ShareDialog from "../components/ShareDialog";
 import { Input } from "../components/ui/Input";
 import { toast } from "sonner";
-import { useFolders } from "../hooks/useFolders";
 
 function FolderPage() {
   const { id } = useParams();
@@ -19,10 +18,7 @@ function FolderPage() {
   const navigate = useNavigate();
   const { folder, renameFolder, deleteFolder } = useFolder(id);
 
-  console.log(folder);
-
   const { files, reloadFiles } = useFiles(id);
-
   const [renaming, setRenaming] = useState(false);
   const [name, setName] = useState("");
 

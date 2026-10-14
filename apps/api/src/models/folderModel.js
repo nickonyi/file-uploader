@@ -62,3 +62,15 @@ export const deleteFolderInDB = async ({ id, userId }) => {
 
   return result[0] ?? null;
 };
+
+export const createShareInDB = async ({ folderId, token, expiresAt }) => {
+  const result = await prisma.$queryRaw`
+  INSERT INTO shares (token,folder_id,expires_at)
+  VALUES (${token},${folderId},${expiresAt}) 
+  ON CONFLICT (folder_id)
+    DO UPDATE SET expires_at = EXCLUDED.expires_at
+    RETURNING *
+  `;
+
+  return result[0];
+};
