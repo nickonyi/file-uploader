@@ -2,6 +2,7 @@ import Dashboard from "../pages/Dashboard";
 import FolderPage from "../pages/FolderPage";
 import Login from "../pages/Login";
 import ProtectedRoute from "../pages/ProtectedRoute";
+import SharePage from "../pages/SharePage";
 
 const routes = [
   {
@@ -18,6 +19,10 @@ const routes = [
       {
         path: "/folders/:id",
         element: <FolderPage />,
+      },
+      {
+        path: "/share/:id",
+        element: <SharePage />,
       },
     ],
   },
