@@ -67,10 +67,19 @@ export const createShareInDB = async ({ folderId, token, expiresAt }) => {
   const result = await prisma.$queryRaw`
   INSERT INTO shares (token,folder_id,expires_at)
   VALUES (${token},${folderId},${expiresAt}) 
-  ON CONFLICT (folder_id)
-    DO UPDATE SET expires_at = EXCLUDED.expires_at
     RETURNING *
   `;
 
   return result[0];
+};
+
+export const getSharesFromDB = async ({ folderId }) => {
+  const result = await prisma.$queryRaw`
+    SELECT * FROM 
+    shares WHERE 
+    folder_id=${folderId}
+    ORDER BY created_at DESC
+  `;
+
+  return result;
 };

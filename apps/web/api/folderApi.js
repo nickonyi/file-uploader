@@ -34,3 +34,9 @@ export const shareFolder = async (id, hours) => {
     body: JSON.stringify({ hours }),
   });
 };
+
+export const listShares = async (id, hours) => {
+  return api(`/folders/${id}/shares`, {
+    method: "GET",
+  });
+};

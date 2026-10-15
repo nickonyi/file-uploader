@@ -5,6 +5,7 @@ import {
   deleteFolderController,
   getFolderController,
   getFoldersController,
+  getFolderSharesController,
   updateFolderController,
 } from "../controllers/folderControllers.js";
 
@@ -12,6 +13,8 @@ const router = Router();
 
 router.get("/", getFoldersController);
 router.get("/:id", getFolderController);
+router.get("/:id/shares", getFolderSharesController);
+
 router.post("/", createFolderController);
 router.post("/:id/share", createFolderShareController);
 

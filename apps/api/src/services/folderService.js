@@ -4,6 +4,7 @@ import {
   deleteFolderInDB,
   getFolderByIdFromDB,
   getFoldersFromDB,
+  getSharesFromDB,
   updateFolderInDB,
 } from "../models/folderModel.js";
 import { AppError } from "../utils/appError.js";
@@ -87,4 +88,10 @@ export const createFolderShareService = async ({ id, userId, hours }) => {
     url: `${process.env.CLIENT_URL}/shared/${share.token}`,
     expires_at: share.expires_at,
   };
+};
+
+export const getFolderSharesService = async ({ folderId }) => {
+  const result = await getSharesFromDB({ folderId });
+
+  return result;
 };
