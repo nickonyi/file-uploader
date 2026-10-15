@@ -83,3 +83,17 @@ export const getSharesFromDB = async ({ folderId }) => {
 
   return result;
 };
+
+export const deleteSharesFromDB = async ({ id, userId }) => {
+  const result = await prisma.$queryRaw`
+   DELETE FROM shares s
+   USING folders f
+   WHERE S.id=${id}
+    AND folder_id=f.id
+    AND f.user_id=${userId}
+   RETURNING s.id 
+   
+  `;
+
+  return result[0] ?? null;
+};

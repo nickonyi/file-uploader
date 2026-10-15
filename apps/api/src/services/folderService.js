@@ -2,6 +2,7 @@ import {
   createFolderInDB,
   createShareInDB,
   deleteFolderInDB,
+  deleteSharesFromDB,
   getFolderByIdFromDB,
   getFoldersFromDB,
   getSharesFromDB,
@@ -94,4 +95,12 @@ export const getFolderSharesService = async ({ folderId }) => {
   const result = await getSharesFromDB({ folderId });
 
   return result;
+};
+
+export const deleteSharesService = async ({ id, userId }) => {
+  const deleted = await deleteSharesFromDB({ id, userId });
+
+  if (!deleted) {
+    throw new AppError("Share not found", 404);
+  }
 };

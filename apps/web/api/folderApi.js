@@ -40,3 +40,9 @@ export const listShares = async (id, hours) => {
     method: "GET",
   });
 };
+
+export const deleteShare = async ({ id }) => {
+  return api(`/folders/${id}/shares`, {
+    method: "DELETE",
+  });
+};

@@ -24,7 +24,7 @@ import { formatDate } from "../libs/file-rules";
 function ShareDialog({ folderId }) {
   const [open, setOpen] = useState(false);
   const [hours, setHours] = useState("24");
-  const { createShare, shares, loadShares } = useShareFolder();
+  const { createShare, shares, loadShares, deleteShare } = useShareFolder();
 
   const handleCreateShare = async () => {
     try {
@@ -105,8 +105,8 @@ function ShareDialog({ folderId }) {
                     size="icon"
                     aria-label="Revoke link"
                     onClick={async () => {
-                      await deleteShare({ data: { id: share.id } });
-                      await shares.refetch();
+                      await deleteShare({ id: share.id });
+                      await loadShares(folderId);
                       toast.success("Link revoked");
                     }}
                   >

@@ -13,9 +13,13 @@ export function useShareFolder() {
     await folderApi.shareFolder(id, hours);
   }, []);
 
+  const deleteShare = useCallback(async ({ id }) => {
+    await folderApi.deleteShare({ id });
+  }, []);
   return {
     shares,
     createShare,
     loadShares,
+    deleteShare,
   };
 }

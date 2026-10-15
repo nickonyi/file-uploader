@@ -3,6 +3,7 @@ import {
   createFolderController,
   createFolderShareController,
   deleteFolderController,
+  deleteSharesController,
   getFolderController,
   getFoldersController,
   getFolderSharesController,
@@ -20,5 +21,6 @@ router.post("/:id/share", createFolderShareController);
 
 router.patch("/:id", updateFolderController);
 router.delete("/:id", deleteFolderController);
+router.delete("/:id/shares", deleteSharesController);
 
 export default router;
