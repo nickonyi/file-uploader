@@ -1,12 +1,12 @@
 import express from "express";
 import cors from "cors";
-import passport from "./src/config/passportConfig.js";
-import authRoutes from "./src/routes/authRoutes.js";
-import fileRoutes from "./src/routes/fileRoutes.js";
-import folderRoutes from "./src/routes/folderRoutes.js";
-import { ensureAuth } from "./src/middlewares/authMiddleware.js";
-import { sessionMiddleware } from "./src/middlewares/sessionMiddleware.js";
-import { globalErrorHandler } from "./src/middlewares/errorMiddleware.js";
+import passport from "./config/passportConfig.js";
+import authRoutes from "./routes/authRoutes.js";
+import fileRoutes from "./routes/fileRoutes.js";
+import folderRoutes from "./routes/folderRoutes.js";
+import { ensureAuth } from "./middlewares/authMiddleware.js";
+import { sessionMiddleware } from "./middlewares/sessionMiddleware.js";
+import { globalErrorHandler } from "./middlewares/errorMiddleware.js";
 
 const app = express();
 
