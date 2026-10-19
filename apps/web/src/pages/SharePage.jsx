@@ -1,12 +1,12 @@
 import { FolderLock } from "lucide-react";
 import { useParams } from "react-router";
 import { useSharedFolder } from "../hooks/useSharedFolder";
+import { formatDate } from "../libs/file-rules";
+import FileTable from "../components/FileTable";
 
 function SharePage() {
   const { token } = useParams();
-  const { files, busy, error } = useSharedFolder(token);
-
-  console.log(files);
+  const { folder, files, busy, error } = useSharedFolder(token);
 
   return (
     <main className="mx-auto max-w-3xl space-y-6 px-4 py-12">
@@ -22,17 +22,12 @@ function SharePage() {
       {files ? (
         <>
           <div>
-            <h1 className="text-2xl font-semibold">{shared.data.folderName}</h1>
+            <h1 className="text-2xl font-semibold">{folder?.folderName}</h1>
             <p className="text-sm text-muted-foreground">
-              Shared folder · link expires {formatDate(shared.data.expiresAt)}
+              Shared folder · link expires {formatDate(folder?.expiresAt)}
             </p>
           </div>
-          <FileTable
-            files={shared.data.files}
-            onDownload={(fileId) =>
-              getSharedDownloadUrl({ data: { token, fileId } })
-            }
-          />
+          <FileTable files={files} />
         </>
       ) : null}
     </main>

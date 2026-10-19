@@ -109,11 +109,15 @@ export const getSharedFolderFromDB = async (token) => {
   return rows[0] ?? null;
 };
 
-export const getFilesForSharedFolderFromDB = (folderId) => {
-  return prisma.$queryRaw`
+export const getFilesForSharedFolderFromDB = async (folderId) => {
+  const files = await prisma.$queryRaw`
     SELECT id, name, size, mime_type, created_at
     FROM files
     WHERE folder_id = ${folderId}::uuid
     ORDER BY created_at DESC
   `;
+
+  return files.map((file) => {
+    return { ...file, size: Number(file.size) };
+  });
 };

@@ -116,5 +116,6 @@ export const getSharedFolderService = async (token) => {
   }
 
   const files = await getFilesForSharedFolderFromDB(share.id);
+
   return { folderName: share.name, expiresAt: share.expires_at, files };
 };

@@ -15,6 +15,7 @@ export function useSharedFolder(token) {
       setError(null);
       try {
         const data = await shareApi.getSharedFolder(token);
+
         if (!cancelled) {
           setFolder(data.folder);
           setFiles(data.files);
