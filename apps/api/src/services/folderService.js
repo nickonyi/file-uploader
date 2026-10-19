@@ -3,8 +3,10 @@ import {
   createShareInDB,
   deleteFolderInDB,
   deleteSharesFromDB,
+  getFilesForSharedFolderFromDB,
   getFolderByIdFromDB,
   getFoldersFromDB,
+  getSharedFolderFromDB,
   getSharesFromDB,
   updateFolderInDB,
 } from "../models/folderModel.js";
@@ -103,4 +105,16 @@ export const deleteSharesService = async ({ id, userId }) => {
   if (!deleted) {
     throw new AppError("Share not found", 404);
   }
+};
+
+export const getSharedFolderService = async (token) => {
+  const share = await getSharedFolderFromDB(token);
+
+  if (!share) throw new AppError("This share link is not valid.", 404);
+  if (new Date(share.expires_at) <= new Date()) {
+    throw new AppError("This share link has expired.", 410);
+  }
+
+  const files = await getFilesForSharedFolderFromDB(share.id);
+  return { folderName: share.name, expiresAt: share.expires_at, files };
 };

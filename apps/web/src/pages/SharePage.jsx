@@ -1,7 +1,13 @@
 import { FolderLock } from "lucide-react";
+import { useParams } from "react-router";
+import { useSharedFolder } from "../hooks/useSharedFolder";
 
 function SharePage() {
-  const shared = [];
+  const { token } = useParams();
+  const { files, busy, error } = useSharedFolder(token);
+
+  console.log(files);
+
   return (
     <main className="mx-auto max-w-3xl space-y-6 px-4 py-12">
       <div className="flex items-center gap-2 text-primary">
@@ -9,19 +15,11 @@ function SharePage() {
         <span className="font-display font-semibold">Vault</span>
       </div>
 
-      {shared.isLoading ? (
-        <p className="text-sm text-muted-foreground">Loading…</p>
-      ) : null}
+      {busy ? <p className="text-sm text-muted-foreground">Loading…</p> : null}
 
-      {shared.data?.status === "invalid" ? (
-        <p className="panel p-6 text-center">This share link is not valid.</p>
-      ) : null}
+      {error ? <p className="panel p-6 text-center">{error.message}</p> : null}
 
-      {shared.data?.status === "expired" ? (
-        <p className="panel p-6 text-center">This share link has expired.</p>
-      ) : null}
-
-      {shared.data?.status === "ok" ? (
+      {files ? (
         <>
           <div>
             <h1 className="text-2xl font-semibold">{shared.data.folderName}</h1>

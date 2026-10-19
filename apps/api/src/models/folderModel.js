@@ -97,3 +97,23 @@ export const deleteSharesFromDB = async ({ id, userId }) => {
 
   return result[0] ?? null;
 };
+
+export const getSharedFolderFromDB = async (token) => {
+  const rows = await prisma.$queryRaw`
+    SELECT f.id, f.name, s.expires_at
+    FROM shares s
+    JOIN folders f ON f.id = s.folder_id
+    WHERE s.token = ${token}
+  `;
+
+  return rows[0] ?? null;
+};
+
+export const getFilesForSharedFolderFromDB = (folderId) => {
+  return prisma.$queryRaw`
+    SELECT id, name, size, mime_type, created_at
+    FROM files
+    WHERE folder_id = ${folderId}::uuid
+    ORDER BY created_at DESC
+  `;
+};

@@ -21,7 +21,7 @@ const routes = [
         element: <FolderPage />,
       },
       {
-        path: "/share/:id",
+        path: "/share/:token",
         element: <SharePage />,
       },
     ],

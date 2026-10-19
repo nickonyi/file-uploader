@@ -34,6 +34,8 @@ function FolderPage() {
 
   const handleDeleteFoder = async () => {
     try {
+      if (!window.confirm("Delete this folder and all files inside it?"))
+        return;
       await deleteFolder(id);
       navigate("/dashboard");
       toast.success("successfully deleted folder");
