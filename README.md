@@ -119,4 +119,4 @@ Beyond adding features, I want to use this project to deepen my understanding of
 ## Author
 
 - GitHub — [@nickonyi](https://github.com/nickonyi)
-- Frontend Mentor — [@nickonyi](https://www.frontendmentor.io/profile/nickonyi)
+- The Odin Project
