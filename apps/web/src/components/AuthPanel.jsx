@@ -30,10 +30,12 @@ function AuthPanel() {
 
     if (!password) {
       newErrors.password = "Password is required";
-    } else if (mode === "registered") {
+    } else if (mode === "register") {
       const failed = passwordRules.filter((r) => !r.test(password));
+      console.log(failed.map((r) => r.label));
+
       if (failed.length > 0) {
-        newErrors.password = `Password must include:${failed.map((r) => r.toLowerCase().join(", "))}`;
+        newErrors.password = `Password must include:${failed.map((r) => r.label.toLowerCase()).join(", ")}`;
       }
     }
 
